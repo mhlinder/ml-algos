@@ -1,7 +1,4 @@
-# http://www.kaggle.com/c/digit-recognizer
-# http://www.cs.cmu.edu/~tom/mlbook/NBayesLogReg.pdf
-
-from pandas import read_csv
+# import observations from train.csv, split into subsets train and test.
 from pymongo import MongoClient
 
 def get_db():
