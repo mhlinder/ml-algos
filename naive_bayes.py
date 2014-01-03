@@ -38,23 +38,29 @@ for i in range(len(train)):
 
 # convert counts to proportions
 pis = {i: counts_y[i] / float(len(train)) for i in range(Nk)} # proportion for each y_k value
-thetas = {i: (counts[i] + l) / float(counts_y[i] + l*Nj) for i in range(nK)} # proportion for each X_i pixel
+thetas = {i: (counts[i] + l) / float(counts_y[i] + l*Nj) for i in range(Nk)} # proportion for each X_i pixel
 
 # classify each item in test set
 test['guess'] = tile(nan, len(test))
 for t in range(len(test)):
     # remove label, guess columns
     tt = test.iloc[t].values[1:-1]
-    # 
+    # initial class "guess"
     max_lh = [-inf, -inf]
+
     # for each possible label/digit, calculate likelihood
     for k in range(Nk):
         m = 0.0
+        # loop over each pixel
         for i in range(Ni):
             x_i = tt[i]
             m = m + log(thetas[k][i][x_i])
         m = m + log(pis[k])
+
+        # update if necessary
         if m > max_lh[0]:
             max_lh[0] = m
             max_lh[1] = k
+
+    # record class
     test['guess'].iloc[t] = max_lh[1]
