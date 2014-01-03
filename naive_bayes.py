@@ -2,7 +2,7 @@
 # http://www.cs.cmu.edu/~tom/mlbook/NBayesLogReg.pdf
 
 from pandas import read_csv
-from numpy import zeros, tile, nan
+from numpy import zeros, tile, nan, log, inf
 import sys
 
 Ni = 784 # number of pixels in each picture---28x28
@@ -46,14 +46,14 @@ for t in range(len(test)):
     # remove label, guess columns
     tt = test.iloc[t].values[1:-1]
     # 
-    max_lh = [0, 0]
+    max_lh = [-inf, -inf]
     # for each possible label/digit, calculate likelihood
     for k in range(Nk):
-        m = 1.0
+        m = 0.0
         for i in range(Ni):
             x_i = tt[i]
-            m = m * thetas[k][i][x_i]
-        m = m * pis[k]
+            m = m + log(thetas[k][i][x_i])
+        m = m + log(pis[k])
         if m > max_lh[0]:
             max_lh[0] = m
             max_lh[1] = k
