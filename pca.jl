@@ -1,5 +1,6 @@
 # read in data
 data = readdlm("kaggle/train.csv", ',', Int64, has_header=true);
+
 train = data[1]
 header = data[2]
 
