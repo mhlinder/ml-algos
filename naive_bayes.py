@@ -70,7 +70,7 @@ for t in range(len(test)):
             max_lh[0] = m
             max_lh[1] = k
 
-    # record class
+    # record guess
     test['guess'].iloc[t] = max_lh[1]
     
     # user interface
