@@ -9,8 +9,7 @@ pixels = train[:,2:]
 # demean
 pixels_adj = zeros(Float64, size(pixels));
 for i = 1:size(pixels)[2]
-    m = mean(pixels[:,i])
-    pixels_adj[:,i] = pixels[:,i] - m
+    pixels_adj[:,i] = pixels[:,i] - mean(pixels[:,i])
 end
 
 # generate covariance matrix
