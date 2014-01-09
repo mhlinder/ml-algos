@@ -34,7 +34,7 @@ for (digit in 0:9) {
     sds[,digit+1] <- apply(pc, 2, sd)
 }
 
-# calculate log likelihood fo# r each test value, conditional on digit
+# # calculate log likelihood for each test value, conditional on digit
 # llh <- mat.or.vec(nrow(test), nK) # log likelihoods
 # for (digit in 0:9) {
     # # transform test values to principal components
