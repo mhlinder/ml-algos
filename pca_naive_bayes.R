@@ -1,58 +1,30 @@
-data1 <- read.csv('kaggle/train.csv',header=T)
-# data2 <- read.csv('kaggle/test.csv',header=T)
-data <- data.frame(data1)
+indata1 <- read.csv('kaggle/train.csv',header=T)
+# indata2 <- read.csv('kaggle/test.csv',header=T)
+indata <- data.frame(indata1)
 
-nK <- 10
-nPC <- 40
-
-# calculate principal components
-n <- nrow(data) / 10
-test = data[1:n,]
-train <- data[n:nrow(data),]
-pca <- princomp(train[,2:ncol(train)])
+# calculate principal components of data
+pca <- princomp(indata[,2:ncol(indata)])
+nPC <- 40 # subset of princ. comp.
 pcs <- t(pca$loadings[,1:nPC]) # rows principal components
 
-# conditional distributions look approximately normal
-# columns are digits; rows are PCs
-means <- mat.or.vec(nPC, nK)
-sds <- mat.or.vec(nPC, nK)
-for (digit in 0:9) {
-    d <- train[train[,1]==digit,2:ncol(train)]
-    d <- t(d) # rows are explanatory variables
+# extract labels
+labels <- indata[,1]
 
-    pc <- pcs %*% d
-    pc <- t(pc) # rows are obs
+# transform data into pc
+indata <- t(indata[,2:ncol(indata)])
+indata <- data.frame(t(pcs %*% indata))
+indata$label <- labels
 
-    if (FALSE) { # Plot histograms for all digit, PC tuples
-        for (com in 1:40)  {
-            ggplot(data.frame(Princ.Comp = pc[,com]), aes(x=Princ.Comp, fill=1)) + geom_density() + opts(legend.position='none')
-            ggsave(file=sprintf('pngs/d%d_c%s.png', digit, com))
-        }
-    }
+# calculate naive bayes conditional probabilities
+library("e1071")
+n <- nrow(indata) / 10
+dtrain <- indata[n:nrow(indata), 1:nPC]
+ltrain <- indata[n:nrow(indata), nPC+1]
 
-    means[,digit+1] <- apply(pc, 2, mean)
-    sds[,digit+1] <- apply(pc, 2, sd)
-}
+dtest <-indata[1:n, 1:nPC]
+ltest <- indata[1:n, nPC+1]
 
-# # calculate log likelihood for each test value, conditional on digit
-# llh <- mat.or.vec(nrow(test), nK) # log likelihoods
-# for (digit in 0:9) {
-    # # transform test values to principal components
-    # d <- t(test[,2:ncol(test)])
+bayes <- naiveBayes(dtrain, ltrain)
+classified <- predict(bayes, indata[1:n,1:nPC], type="raw")
 
-    # pc <- pcs %*% d
-    # pc <- t(pc)
-
-    # # likelihood values
-    # probs <- matrix(0, nrow(pc), ncol(pc))
-
-    # # for each column (each PC), calculate the likelihood for that PC, conditional on digit
-    # for (i in 1:ncol(pc)) {
-        # probs[,i] <- dlnorm(pc[,i], mean=means[i,digit+1], sd=sds[i,digit+1])
-    # }
-    # # as dlnorm --- log normal --- was used, we sum over likelihood values
-    # llh[,digit] <- apply(probs, 1, sum)
-# }
-
-# # digit is index-1 of maximum likelihood
-# digits <- apply(llh, 1, which.max) - 1
+pct_correct <- sum(apply(classified,1,which.max) - 1==ltest) / nrow(classified)
