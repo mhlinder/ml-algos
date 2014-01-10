@@ -4,12 +4,16 @@ These are some basic machine learning algorithms, applied to the Kaggle toy comp
 
 ### Benchmark: simple averaging
 `averages_benchmark.py`
+<br />
 *Public Score: 0.80614*
+<br />
 As a benchmark, for all training observations with a given label, I calculate the average of each pixel. I then minimize the Euclidean distance between each test observation and these average images, using the "closest" digit as the classification rule. Sort of like KNN, n=1, on average digits.
 
 ### Naive Bayes
 `naive_bayes.py`, `naive_bayes.jl`
+<br />
 *Public Score: 0.82671*
+<br />
 Assume a multinomial distribution with k=256 classes for each 
 
 ### PCA and naive Bayes
