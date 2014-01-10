@@ -2,7 +2,7 @@ Simple Machine Learning Algorithms
 =================================
 These are some basic machine learning algorithms, applied to the Kaggle toy competition [Digit Recognizer](http://www.kaggle.com/c/digit-recognizer). These algos are not intended to be sophisticated, nor are they necessarily appropriate for this context; I've focused here on the implementation of algorithms, rather than solving a problem. To that end, these are general machine learning approaches, supervised and unsupervised, that can be applied to a variety of problems. They're written in a handful of languages, depending on personal preference, speed, learning to program better and built-in features, sometimes with duplicated code.
 
-Given are the files that implement a given solution, as well as the correct classification rates according to Kaggle for each algorithm.
+I have attempted to write some of these algorithms from scratch, for educational purposes, and in later instantiations of the same algorithm (see `pca_naive_bayes.R`) I use optimized libraries. There are, as I see it, two steps to this type of work: understanding the underlying algorithm (writing the algorithm from scratch), and using the algorithm (using a more robust, third-party implementation). This repo features both. Given are the files that implement a given solution, as well as the correct classification rates according to Kaggle for each algorithm.
 
 ### Benchmark: simple averaging
 `averages_benchmark.py`
