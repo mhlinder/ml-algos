@@ -18,7 +18,7 @@ indata$label <- labels
 
 # calculate naive bayes conditional probabilities
 library("e1071")
-n <- nrow(indata1)
+n <- nrow(indata2)
 dtrain <- indata[1:n, 1:nPC]
 ltrain <- indata[1:n, nPC+1]
 
