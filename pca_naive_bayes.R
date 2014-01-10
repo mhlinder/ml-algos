@@ -18,14 +18,14 @@ indata$label <- labels
 
 # calculate naive bayes conditional probabilities
 library("e1071")
-n <- nrow(indata2)
+n <- nrow(indata1)
 dtrain <- indata[1:n, 1:nPC]
 ltrain <- indata[1:n, nPC+1]
 
-dtest <-indata[n+1:nrow(indata), 1:nPC]
-ltest <- indata[n+1:nrow(indata), nPC+1]
+dtest <-indata[(n+1):nrow(indata), 1:nPC]
+ltest <- indata[(n+1):nrow(indata), nPC+1]
 
 bayes <- naiveBayes(dtrain, ltrain)
-classified <- predict(bayes, indata[n+1:nrow(indata),1:nPC], type="raw")
+classified <- predict(bayes, indata[(n+1):nrow(indata),1:nPC], type="raw")
 
-# indata[n+1:nrow(indata),]$label <- apply(classified,1,which.max) - 1
+indata[(n+1):nrow(indata),]$label <- apply(classified,1,which.max) - 1
