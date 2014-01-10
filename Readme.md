@@ -14,7 +14,11 @@ As a benchmark, for all training observations with a given label, I calculate th
 <br />
 *Public Score: 0.82671*
 <br />
-Assume a multinomial distribution with k=256 classes for each 
+Assume a multinomial distribution with k=256 classes for each of 784 pixels; calculate conditional population proportions to find pixel distributions, conditional on digit. Assume independence between all pixel values. This is clearly naive: mutually proximal pixels are likely to have high correlation, and this implementation of the naive Bayes filter completely disregards the information contained in these correlations. There's no structure to the data, as it were, aside from 784 different explanatory variables.
 
 ### PCA and naive Bayes
+`pca.jl`, `pca_naive_bayes.R`
+<br />
 *Public Score: 0.86771*
+<br />
+Calculate principal components for the training data set, and drop those principal components corresponding to low variance. This is dimension reduction. Perform naive Bayes classification on training data re-expressed in terms fo the principal components; because the explanatory variables are in terms of the principal components, these variables are continuous rather than discrete. Conditionally Gaussian distributions are used for calculation of the likelihood; plotting reveals that this is not an absurd assumption to make.
